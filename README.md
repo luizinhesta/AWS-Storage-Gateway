@@ -18,10 +18,10 @@ O File Gateway permite que você acesse arquivos armazenados no Amazon S3 como s
 | Componente | Detalhes |
 |------------|----------|
 | PC Host | Windows com Hyper-V |
-| VM | Windows Server (IP: 192.168.15.104) |
+| VM | Windows Server (IP: `<IP_DA_VM>`) |
 | Gateway | AWS Storage Gateway - File Gateway |
 | Bucket S3 | `sgw-file-gateway-storage` |
-| Compartilhamento | `\\192.168.15.104\sgw-file-gateway-storage` |
+| Compartilhamento | `\\<IP_DA_VM>\sgw-file-gateway-storage` |
 | Drive mapeado | `Z:` |
 | Região AWS | us-east-1 (Norte da Virgínia) |
 
@@ -61,7 +61,7 @@ Consulte `docs/implantacao-windows.md` para o guia detalhado passo a passo.
 
 | Problema | Solução |
 |----------|---------|
-| Ativação falha (não conecta no IP) | Verificar se a porta 80 está acessível: `Test-NetConnection 192.168.15.104 -Port 80` |
+| Ativação falha (não conecta no IP) | Verificar se a porta 80 está acessível: `Test-NetConnection <IP_DA_VM> -Port 80` |
 | SMB "Access Denied" | Verificar senha do guest; remover conexão antiga: `net use Z: /delete` |
 | Arquivo não aparece no S3 | Aguardar 60 segundos; usar "Refresh cache" no Console AWS |
 | Porta 445 bloqueada | Verificar firewall do Windows Server: liberar porta 445 inbound |

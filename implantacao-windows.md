@@ -5,11 +5,11 @@
 | Item | Valor |
 |------|-------|
 | VM | Windows Server no Hyper-V |
-| IP da VM | 192.168.15.104 |
+| IP da VM | `<IP_DA_VM>` (IP da sua VM no Hyper-V) |
 | Região AWS | us-east-1 (Norte da Virgínia) |
 | Bucket S3 | `sgw-file-gateway-storage` |
 | Nome do Gateway | `FileGateway-Storage` |
-| Compartilhamento | `\\192.168.15.104\sgw-file-gateway-storage` |
+| Compartilhamento | `\\<IP_DA_VM>\sgw-file-gateway-storage` |
 | Drive no PC | `Z:` |
 
 ---
@@ -47,7 +47,7 @@ Se a instalação local não funcionar por limitação de recursos:
 
 1. No wizard de criação, selecione **Amazon EC2** como plataforma
 2. A AWS vai criar uma instância EC2 com o gateway pré-configurado
-3. Use o IP público da instância EC2 no lugar de `192.168.15.104`
+3. Use o IP público da instância EC2 no lugar de `<IP_DA_VM>`
 4. Ajuste o endpoint SMB para o IP da EC2
 
 ---
@@ -57,7 +57,7 @@ Se a instalação local não funcionar por limitação de recursos:
 1. Console AWS → **Storage Gateway** → **Create gateway** (ou continue o wizard)
 2. Na tela **Conectar-se à AWS**:
    - **Opções de conexão**: Endereço IP
-   - **Endereço IP**: `192.168.15.104` (IP da VM onde o gateway está rodando)
+   - **Endereço IP**: `<IP_DA_VM>` (IP da VM onde o gateway está rodando)
    - **Endpoint de serviço**: Publicamente acessível
    - **FIPS**: Desmarcado
    - **Versão do IP**: IPv4 usando endpoint somente IPv4
@@ -116,7 +116,7 @@ Após a ativação, o Console pede para configurar os discos locais:
 No PowerShell do **PC Host** (não da VM):
 
 ```powershell
-Test-NetConnection -ComputerName 192.168.15.104 -Port 445
+Test-NetConnection -ComputerName <IP_DA_VM> -Port 445
 ```
 
 Resultado esperado: `TcpTestSucceeded : True`
@@ -126,14 +126,14 @@ Resultado esperado: `TcpTestSucceeded : True`
 No PowerShell como Administrador:
 
 ```powershell
-net use Z: \\192.168.15.104\sgw-file-gateway-storage /user:sgw\smbguest SmbPass2024! /persistent:yes
+net use Z: \\<IP_DA_VM>\sgw-file-gateway-storage /user:sgw\smbguest SmbPass2024! /persistent:yes
 ```
 
 Ou pelo **File Explorer**:
 1. Abra o Explorador de Arquivos
 2. Clique com botão direito em **Este Computador** → **Mapear unidade de rede**
 3. Drive: `Z:`
-4. Pasta: `\\192.168.15.104\sgw-file-gateway-storage`
+4. Pasta: `\\<IP_DA_VM>\sgw-file-gateway-storage`
 5. Marque **Reconectar ao entrar**
 6. Clique em **Conectar usando credenciais diferentes**
 7. Usuário: `sgw\smbguest`
@@ -232,7 +232,7 @@ Após concluir todos os passos:
 |---------|-------|
 | Gateway | `FileGateway-Storage` (status: Running) |
 | Bucket S3 | `sgw-file-gateway-storage` |
-| File Share | `\\192.168.15.104\sgw-file-gateway-storage` |
+| File Share | `\\<IP_DA_VM>\sgw-file-gateway-storage` |
 | Drive mapeado | `Z:` |
 | Autenticação | Guest (`sgw\smbguest`) |
 
@@ -242,7 +242,7 @@ Após concluir todos os passos:
 
 | Erro | Causa | Solução |
 |------|-------|---------|
-| "Ativação falhou" no Console AWS | VM não acessível na porta 80 | Verificar firewall da VM; testar `Test-NetConnection 192.168.15.104 -Port 80` |
+| "Ativação falhou" no Console AWS | VM não acessível na porta 80 | Verificar firewall da VM; testar `Test-NetConnection <IP_DA_VM> -Port 80` |
 | "Access Denied" ao montar Z: | Senha incorreta ou conexão antiga | `net use Z: /delete` e reconectar com senha correta |
 | Arquivo não aparece no S3 | Sincronização em andamento | Aguardar 60s; usar "Refresh cache" no Console |
 | "Network path not found" | Porta 445 bloqueada | Liberar porta 445 no firewall da VM |

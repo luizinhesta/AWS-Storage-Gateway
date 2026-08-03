@@ -4,9 +4,9 @@
 
 ```mermaid
 graph LR
-    subgraph "Rede Local (192.168.15.0/24)"
+    subgraph "Rede Local"
         PC["PC Host<br/>Windows + Hyper-V"]
-        VM["VM Windows Server<br/>IP: 192.168.15.104<br/>File Gateway instalado"]
+        VM["VM Windows Server<br/>IP: &lt;IP_DA_VM&gt;<br/>File Gateway instalado"]
     end
 
     subgraph "AWS Cloud (us-east-1)"
@@ -26,8 +26,8 @@ graph LR
 
 | Componente | Função | IP / Recurso |
 |------------|--------|--------------|
-| **PC Host** | Máquina física que roda Hyper-V e acessa o compartilhamento SMB | 192.168.15.x |
-| **VM Windows Server** | Hospeda o File Gateway; serve o compartilhamento SMB | 192.168.15.104 |
+| **PC Host** | Máquina física que roda Hyper-V e acessa o compartilhamento SMB | `<IP_DO_HOST>` |
+| **VM Windows Server** | Hospeda o File Gateway; serve o compartilhamento SMB | `<IP_DA_VM>` |
 | **File Gateway** | Software da AWS instalado na VM; faz ponte entre SMB e S3 | Instalado na VM |
 | **Amazon S3** | Armazenamento real dos arquivos na nuvem | Bucket: `sgw-file-gateway-storage` |
 | **IAM Role** | Permissões para o gateway acessar o bucket S3 | `StorageGatewayS3Role` |
